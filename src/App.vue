@@ -1,32 +1,87 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div class="wrapper">
+    <header>
+      <div class="title">My personal costs</div>
+    </header>
+    <main>
+      <button class="addCost" @click="isOpen = !isOpen" >Add +</button>
+      <AddPaymentForm v-show="isOpen" @addNewPayment="addNewPaymentItem"/>
+      <PaymentDisplay :items="paymentsList"/>
+    </main>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import  PaymentDisplay from './components/PaymentDisplay'
+import  AddPaymentForm from './components/AddPaymentForm'
 
-#nav {
-  padding: 30px;
+export default {
+  components: {
+    PaymentDisplay,
+    AddPaymentForm,
+  },
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+  data () {
+    return {
+      paymentsList: [],
+      isOpen: false,
     }
+  },
+
+  methods: {
+    close() {
+      this.isOpen = false;
+    },
+    open() {
+      this.isOpen = true;
+    },
+    fetchData() {
+      return[
+          {
+            date: '28.03.2020',
+            category: 'Food',
+            value: 169,
+          },
+          {
+            date: '24.03.2020',
+            category: 'Transport',
+            value: 360,
+          },
+          {
+            date: '24.03.2020',
+            category: 'Food',
+            value: 532,
+          },
+      ]
+    },
+    addNewPaymentItem(data){
+      this.paymentsList = [...this.paymentsList,data]
+    }
+
+  },
+
+  created() {
+    this.paymentsList = this.fetchData()
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.title{
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.addCost{
+  height: 30px;
+  width: 300px;
+  margin-bottom: 12px;
+  color: white;
+  background-color: indianred;
+  border-style: none;
+  &:hover{
+    background-color: #cd5c;
   }
 }
+
 </style>
