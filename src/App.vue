@@ -5,8 +5,10 @@
     </header>
     <main>
       <button class="addCost" @click="isOpen = !isOpen" >Add +</button>
-      <AddPaymentForm v-show="isOpen" @addNewPayment="addNewPaymentItem"/>
+<!--      <div>Total Sum  =  {{getFPV}} </div>-->
+      <AddPaymentForm v-show="isOpen" @addNewPayment="addNewPaymentItem" :category-list="categoryList"/>
       <PaymentDisplay :items="paymentsList"/>
+      <Pagination/>
     </main>
   </div>
 </template>
@@ -14,54 +16,70 @@
 <script>
 import  PaymentDisplay from './components/PaymentDisplay'
 import  AddPaymentForm from './components/AddPaymentForm'
+import Pagination from "./components/Pagination";
+import {mapGetters, mapMutations,mapActions} from 'vuex'
 
 export default {
+
   components: {
     PaymentDisplay,
     AddPaymentForm,
+    Pagination,
   },
 
   data () {
     return {
-      paymentsList: [],
       isOpen: false,
     }
   },
 
+  computed:{
+    ...mapGetters([
+      // 'getFullPaymentValue',
+      'getCategoryList',
+    ]),
+    // getFPV(){
+    //   return this.getFullPaymentValue
+    // },
+    paymentsList(){
+      return this.$store.getters.getPaymentsList
+    },
+
+    categoryList(){
+      return this.$store.getters.getCategoryList
+    },
+
+  },
+
   methods: {
+    ...mapMutations([
+      'setPaymentsListData',
+      'addDataToPaymentsList'
+    ]),
+    ...mapActions([
+      'loadCategories',
+      'fetchData'
+    ]),
+
+    addNewPaymentItem(value){
+      this.addDataToPaymentsList(value)
+    },
+
     close() {
       this.isOpen = false;
     },
     open() {
       this.isOpen = true;
     },
-    fetchData() {
-      return[
-          {
-            date: '28.03.2020',
-            category: 'Food',
-            value: 169,
-          },
-          {
-            date: '24.03.2020',
-            category: 'Transport',
-            value: 360,
-          },
-          {
-            date: '24.03.2020',
-            category: 'Food',
-            value: 532,
-          },
-      ]
-    },
-    addNewPaymentItem(data){
-      this.paymentsList = [...this.paymentsList,data]
-    }
 
   },
 
+
   created() {
-    this.paymentsList = this.fetchData()
+    if(!this.fetchData.length) {
+      this.fetchData()
+    }
+    this.$store.dispatch('loadCategories')
   },
 }
 </script>

@@ -1,7 +1,11 @@
 <template>
   <div class="wrapper">
     <input placeholder="Value" type="number" v-model.number="value"/>
-    <input placeholder="Category" type="text" v-model.trim="category"/>
+    <select v-model="selected">
+      <option v-for="(item, idx) in categoryList" :value="item" :key="idx">
+        {{item}}
+      </option>
+    </select>
     <input placeholder="Date" type="text" v-model.trim="date"/>
     <button  @click="onSaveClick">Save</button>
   </div>
@@ -9,8 +13,11 @@
 
 <script>
 export default {
+  props:['categoryList'],
+
   data() {
     return{
+      selected: '',
       value: '',
       category:'',
       date:'',
@@ -18,6 +25,7 @@ export default {
   },
 
   computed:{
+
     getCurrentDate() {
     const today = new Date()
       const d = today.getDate()
@@ -34,7 +42,7 @@ export default {
         category:this.category,
         date:this.date || this.getCurrentDate,
       }
-      this.$emit("addNewPayment",data)
+      this.$emit('addNewPayment', data)
     },
   },
 
@@ -48,6 +56,10 @@ export default {
   max-width: 300px;
 }
 input {
+  height: 30px;
+  margin-bottom: 12px;
+}
+select {
   height: 30px;
   margin-bottom: 12px;
 }

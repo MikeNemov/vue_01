@@ -1,4 +1,5 @@
 <template>
+
   <div class="wrapper">
     <table class="items"><tr>
       <th>No</th>
@@ -6,11 +7,13 @@
       <th>Category</th>
       <th>Value</th>
     </tr>
-      <tr v-for="(item,idx) in items" :key="idx">
-        <td>{{idx+1}}</td>
-        <td>{{item.date}}</td>
-        <td>{{item.category}}</td>
-        <td>{{item.value}}</td>
+      <tr v-for="item in $store.getters.getPaymentsList[`page${$store.getters.getPage}`]"
+          :key='item.id' >
+        <td>{{ item.id }}</td>
+        <td>{{ item.date }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.value }}</td>
+
       </tr>
     </table>
 
@@ -21,9 +24,11 @@
 export default {
   props: {
     items: {
-      type: Array,
+      type: Object,
+      required: true
     },
   },
+
 }
 </script>
 
