@@ -58,7 +58,7 @@ export default {
     ]),
     ...mapActions([
       'loadCategories',
-      'fetchData'
+      'fetchStart'
     ]),
 
     addNewPaymentItem(value){
@@ -76,8 +76,8 @@ export default {
 
 
   created() {
-    if(!this.fetchData.length) {
-      this.fetchData()
+    if(!this.fetchStart.length) {
+      this.fetchStart()
     }
     this.$store.dispatch('loadCategories')
   },

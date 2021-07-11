@@ -1,11 +1,11 @@
 <template>
-  <button @click="setPage(page)">
+  <button @click="setViewPageNumber(page)">
     {{ page }}
   </button>
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations,mapActions} from 'vuex'
 export default {
   name: "Pages",
   props: {
@@ -14,9 +14,21 @@ export default {
     }
   },
 
+
   methods: {
     ...mapMutations(['setPage']),
+
+    ...mapActions(['fetchData']),
+
+    setViewPageNumber(page){
+      this.setPage(page)
+      this.fetchData(page)
+    },
   },
+
+
+
+
 
 }
 </script>

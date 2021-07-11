@@ -7,8 +7,9 @@
       <th>Category</th>
       <th>Value</th>
     </tr>
-      <tr v-for="item in $store.getters.getPaymentsList[`page${$store.getters.getPage}`]"
-          :key='item.id' >
+      <tr v-for="item in $store.getters.getPaymentsList"
+          :key='item' :item="item" >
+        {{item}}
         <td>{{ item.id }}</td>
         <td>{{ item.date }}</td>
         <td>{{ item.category }}</td>
@@ -28,6 +29,7 @@ export default {
       required: true
     },
   },
+
 
 }
 </script>
