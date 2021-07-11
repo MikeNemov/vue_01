@@ -8,7 +8,7 @@
       <th>Value</th>
     </tr>
       <tr v-for="item in $store.getters.getPaymentsList"
-          :key='item' :item="item" >
+          :key='item.id' :item="item" >
         {{item}}
         <td>{{ item.id }}</td>
         <td>{{ item.date }}</td>
