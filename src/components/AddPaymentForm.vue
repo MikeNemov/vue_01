@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <input placeholder="Value" type="number" v-model.number="value"/>
-    <select v-model="selected">
-      <option v-for="(item, idx) in categoryList" :value="item" :key="idx">
+    <select v-model="category">
+      <option v-for="(item, idx) in categories" :value="item" :key="idx">
         {{item}}
       </option>
     </select>
@@ -12,14 +12,16 @@
 </template>
 
 <script>
+
+import {mapMutations, mapGetters} from 'vuex'
 export default {
+  name: "AddPaymentForm",
   props:['categoryList'],
 
   data() {
     return{
-      selected: '',
-      value: '',
-      category:'',
+      value: '0',
+      category: 'Food',
       date:'',
     }
   },
@@ -33,19 +35,57 @@ export default {
       const y = today.getFullYear()
       return `${d}.${m}.${y}`
     },
+
+    categories() {
+      if (this.categoryList?.length){
+        return this.categoryList
+      }
+      return this.$store.getters.getCategoryList
+    },
+
+    routeName(){
+      return this.$route.name
+    }
   },
 
   methods: {
     onSaveClick(){
-    const data = {
-        value: +this.value,
-        category:this.category,
-        date:this.date || this.getCurrentDate,
+      const {value, category} = this
+      const data = {
+        date: this.date || this.getCurrentDate,
+        category,
+        value
+      }
+      if (this.routeName === 'AddPaymentFromLink') {
+        this.$store.commit('addDataToPaymentsList', data)
+        this.$router.push({
+          name: 'dashboard'
+        })
       }
       this.$emit('addNewPayment', data)
     },
+    ...mapMutations([
+      'addDataToPaymentsList',
+      'setPages',
+      'setCategories',
+      'setAddPaymentVisible'
+    ]),
+    ...mapGetters([
+      'getPages',
+      'getPaymentsList'
+    ]),
   },
 
+  created() {
+    const {query, params} = this.$route
+    if(params?.category){
+      this.category = params.category
+    }
+    if(query?.value){
+      this.value= Number(query.value)
+    }
+    console.log(this.$route)
+  },
 }
 </script>
 

@@ -1,22 +1,22 @@
 <template>
 
   <div class="wrapper">
-    <table class="items"><tr>
-      <th>No</th>
-      <th>Date</th>
-      <th>Category</th>
-      <th>Value</th>
-    </tr>
-      <tr v-for="item in $store.getters.getPaymentsList"
+<!--    <table class="items"><tr>-->
+<!--      <th>No</th>-->
+<!--      <th>Date</th>-->
+<!--      <th>Category</th>-->
+<!--      <th>Value</th>-->
+<!--    </tr>-->
+      <div v-for="item in $store.getters.getPaymentsList"
           :key='item.id' :item="item" >
         {{item}}
-        <td>{{ item.id }}</td>
-        <td>{{ item.date }}</td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.value }}</td>
+<!--        <td>{{ item.id }}</td>-->
+<!--        <td>{{ item.date }}</td>-->
+<!--        <td>{{ item.category }}</td>-->
+<!--        <td>{{ item.value }}</td>-->
 
-      </tr>
-    </table>
+      </div>
+<!--    </table>-->
 
   </div>
 </template>
@@ -24,9 +24,9 @@
 <script>
 export default {
   props: {
-    items: {
-      type: Object,
-      required: true
+    item: {
+      type: Array,
+      default: ()=>[],
     },
   },
 

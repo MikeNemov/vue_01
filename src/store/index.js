@@ -27,8 +27,9 @@ export default new Vuex.Store({
   state: {
     pages: 0,
     page: 1,
-    paymentsList: {},
+    paymentsList: [],
     categoryList: [],
+    addPaymentVisible:false
   },
 
 
@@ -62,30 +63,28 @@ export default new Vuex.Store({
       state.page = payload
     },
 
-
+    setAddPaymentVisible(state){
+      state.addPaymentVisible = !state.addPaymentVisible
+    }
 
   },
   getters: {
 
     getPaymentsList: state => state.paymentsList,
 
-
     // getFullPaymentValue: state => {
     //   return state.paymentsList
     //       .reduce((res, cur) => res + cur.value, 0)
     // },
 
-    getCategoryList: state => {
-      return state.categoryList
-    },
+    getCategoryList: state => state.categoryList,
 
     getPages: state => state.pages,
 
     getPage: state => state.page,
+
+    getAddPaymentVisible: state=> state.addPaymentVisible
   },
-
-
-
 
   actions: {
 
@@ -98,6 +97,7 @@ export default new Vuex.Store({
     async fetchData(context, page) {
       await getDataList()
           .then(response => {
+            context.commit('setPages', response)
             context.commit('setPage', page)
             context.commit("setPaymentsListData", {[`page${page}`]:response[`page${page}`]})
           })
