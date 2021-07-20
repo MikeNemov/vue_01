@@ -7,29 +7,23 @@
 <!--      <th>Category</th>-->
 <!--      <th>Value</th>-->
 <!--    </tr>-->
-      <div v-for="item in $store.getters.getPaymentsList"
-          :key='item.id' :item="item" >
-        {{item}}
-<!--        <td>{{ item.id }}</td>-->
-<!--        <td>{{ item.date }}</td>-->
-<!--        <td>{{ item.category }}</td>-->
-<!--        <td>{{ item.value }}</td>-->
-
-      </div>
+      <PaymentInfo v-for="item in $store.getters.getPaymentsList[`page${$store.getters.getPage}`]"
+                   :key='item.id'
+                   :item="item">
+      </PaymentInfo>
 <!--    </table>-->
 
   </div>
 </template>
 
 <script>
+import PaymentInfo from "./PaymentInfo";
 export default {
-  props: {
-    item: {
-      type: Array,
-      default: ()=>[],
-    },
-  },
+  name: "PaymentDisplay",
+  components: {PaymentInfo},
 
+
+  methods:{}
 
 }
 </script>
