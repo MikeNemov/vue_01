@@ -27,7 +27,7 @@ export default new Vuex.Store({
   state: {
     pages: 0,
     page: 1,
-    paymentsList: [],
+    paymentsList: {},
     categoryList: [],
     addPaymentVisible:false
   },
@@ -65,7 +65,19 @@ export default new Vuex.Store({
 
     setAddPaymentVisible(state){
       state.addPaymentVisible = !state.addPaymentVisible
-    }
+    },
+
+    setEditPayment(state, payload){
+      let idx = state.paymentsList[`page${state.page}`].findIndex(token=> token.id === payload.id)
+      state.paymentsList[`page${state.page}`][idx]={...state.paymentsList[`page${state.page}`][0], ...payload}
+      state.paymentsList = {...state.paymentsList}
+    },
+
+    setDeletePayment(state,payload){
+      let idx = state.paymentsList[`page${state.page}`].findIndex(token=> token.id === payload.id)
+      state.paymentsList[`page${state.page}`].splice(idx,1)
+      state.paymentsList = {...state.paymentsList}
+    },
 
   },
   getters: {

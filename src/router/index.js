@@ -1,12 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import PageDashboard from '../page/PageDashboard'
-import PageAbout from '../page/PageAbout'
-import Page404 from '../page/Page404'
-import AddPaymentForm from "@/components/AddPaymentForm";
 
 Vue.use(VueRouter)
-
 
 const router = new VueRouter({
   mode: 'history',
@@ -17,22 +12,22 @@ const router = new VueRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: PageDashboard
+      component: () => import( /* webpackChunkName: "PageDashboard" */'../page/PageDashboard.vue')
     },
     {
       path: '/dashboard/:page',
       name: 'dashboard',
-      component: PageDashboard
+      component: () => import( /* webpackChunkName: "PageDashboard" */'../page/PageDashboard.vue')
     },
     {
       path: '/add/payment/:category',
       name: "AddPaymentFromLink",
-      component: AddPaymentForm
+      component: () => import('@/components/AddPaymentForm')
     },
     {
       path: '/about',
       name: 'about',
-      component: PageAbout
+      component: () => import( /* webpackChunkName: "PageAbout" */'../page/PageAbout')
     },
     {
       path: '/',
@@ -41,7 +36,7 @@ const router = new VueRouter({
     {
         path: "*",
         name: "NotFound",
-        component: Page404
+        component: () => import( /* webpackChunkName: "Page404" */'../page/Page404')
     },
       ]
 })

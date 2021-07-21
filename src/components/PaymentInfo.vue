@@ -1,76 +1,83 @@
 <template>
   <div class="payment">
-    <div class="index">{{item.id}}</div>
-    <div class="date">{{ item.date }}</div>
-    <div class="category">{{ item.category }}</div>
-    <div class="value">{{ item.value }}</div>
+    <table>
+      <tr>
+        <td>{{item.id}}</td>
+        <td>{{ item.date }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.value }}</td>
+        <td>
+          <button class="showModal" @click="openControl">Edit</button>
+        </td>
+        <transition name="fade">
+          <ModalWindow
+              class="modal-control"
+              v-if="modalName"
+              :settings="settings"
+              :item="item"/>
+        </transition>
+      </tr>
+    </table>
+
   </div>
 </template>
 
 <script>
+
+
 export default {
+  components: {
+    ModalWindow: () => import('./ModalWindow')
+  },
   props: {
     item: {
       type: Object,
       required: true
     },
   },
+
+  data() {
+    return {
+      modalName: '',
+      settings: {}
+    }
+  },
+  methods: {
+    openControl() {
+      this.$modal.hide()
+      this.$modal.show('Payment Control', {header: 'Payment Control', compName: 'PaymentControl'})
+      this.modalName = 'Payment Control'
+    },
+    onShow(settings) {
+      this.modalName = this.settings.name
+      this.settings = settings
+    },
+    onHide() {
+      this.modalName = ''
+      this.settings = {}
+    }
+  },
+  mounted() {
+    this.$modal.EventBus.$on('show', this.onShow)
+    this.$modal.EventBus.$on('hide', this.onHide)
+  },
 }
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
+
 
 .payment {
-  display: flex;
-  width: 300px;
-  height: 30px;
-  border-bottom: 1px solid lightgrey;
+  height: 50px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
-
-.index {
-  width: 30px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  height: 25px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.showModal{
+  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
 }
+table { table-layout: fixed; }
+td { width: 33%; }
 
-.date {
-  width: 100px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.category {
-  width: 100px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.value {
-  width: 50px;
-  font-family: Arial,sans-serif;
-  font-size: 16px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>

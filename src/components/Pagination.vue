@@ -5,11 +5,10 @@
 </template>
 
 <script>
-import Pages from "./Pages";
 export default {
   name: "Pagination",
   components: {
-    Pages
+    Pages: ()=> import('./Pages')
   },
 }
 </script>
@@ -18,7 +17,7 @@ export default {
 .wrapper {
   margin-top: 30px;
   display: flex;
-  width: 300px;
+  width: 600px;
   justify-content: center;
   align-items: center;
 }

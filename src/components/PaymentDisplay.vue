@@ -1,26 +1,20 @@
 <template>
 
-  <div class="wrapper">
-<!--    <table class="items"><tr>-->
-<!--      <th>No</th>-->
-<!--      <th>Date</th>-->
-<!--      <th>Category</th>-->
-<!--      <th>Value</th>-->
-<!--    </tr>-->
+  <table class="wrapper">
       <PaymentInfo v-for="item in $store.getters.getPaymentsList[`page${$store.getters.getPage}`]"
                    :key='item.id'
                    :item="item">
       </PaymentInfo>
-<!--    </table>-->
 
-  </div>
+  </table>
 </template>
 
 <script>
-import PaymentInfo from "./PaymentInfo";
 export default {
   name: "PaymentDisplay",
-  components: {PaymentInfo},
+  components: {
+    PaymentInfo: ()=> import('./PaymentInfo')
+  },
 
 
   methods:{}
@@ -35,5 +29,7 @@ export default {
   flex-direction: column;
   text-align: center;
   max-width: 600px;
+  table-layout: fixed
+
 }
 </style>

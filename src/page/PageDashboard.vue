@@ -9,11 +9,7 @@
       Entertainment 2000
     </button>
 
-<!--    <a href="/add/payment/Food?value=200">Food 200</a> /-->
-<!--    <a href="/add/payment/Transport?value=50">Transport 50</a> /-->
-<!--    <a href="/add/payment/Entertainment?value=2000">Entertainment 2000</a> /-->
     <button class="addCost" @click="openAddPayment" >Add new +</button>
-    <!--      <div>Total Sum  =  {{getFPV}} </div>-->
     <AddPaymentForm v-show="$store.getters.getAddPaymentVisible" @addNewPayment="addNewPaymentItem" :category-list="categoryList"/>
     <PaymentDisplay :items="paymentsList"/>
     <Pagination/>
@@ -22,18 +18,15 @@
 
 <script>
 
-import PaymentDisplay from '../components/PaymentDisplay'
-import AddPaymentForm from '../components/AddPaymentForm'
-import Pagination from "../components/Pagination";
 import {mapGetters, mapMutations,mapActions} from 'vuex'
 
 export default {
   name: "PageDashboard",
 
   components: {
-    PaymentDisplay,
-    AddPaymentForm,
-    Pagination,
+    PaymentDisplay: ()=> import('../components/PaymentDisplay'),
+    AddPaymentForm: ()=> import('../components/AddPaymentForm'),
+    Pagination: ()=> import('../components/Pagination'),
   },
 
   data () {
