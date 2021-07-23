@@ -1,33 +1,45 @@
 <template>
-  <div class="payment">
-    <table>
-      <tr>
-        <td>{{item.id}}</td>
-        <td>{{ item.date }}</td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.value }}</td>
-        <td>
-          <button class="showModal" @click="openControl">Edit</button>
-        </td>
-        <transition name="fade">
-          <ModalWindow
-              class="modal-control"
-              v-if="modalName"
-              :settings="settings"
-              :item="item"/>
-        </transition>
-      </tr>
-    </table>
+  <v-container>
+    <v-row>
+      <v-col cols="1">{{item.id}}</v-col>
+      <v-col cols="2">{{ item.date }}</v-col>
+      <v-col cols="2">{{ item.category }}</v-col>
+      <v-col cols="2">{{ item.value }}</v-col>
+      <v-col cols="1">
+        <v-dialog
+            width="600"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                color="red lighten-2"
+                dark
+                v-bind="attrs"
+                v-on="on"
+            >
+              Edit
+            </v-btn>
+          </template>
+          <v-card>
+            <PaymentControl
+                :item="item"/>
+          </v-card>
 
-  </div>
+        </v-dialog>
+      </v-col>
+    </v-row>
+
+  </v-container>
+
 </template>
 
 <script>
 
 
+import PaymentControl from "@/components/PaymentControl";
+
 export default {
   components: {
-    ModalWindow: () => import('./ModalWindow')
+    PaymentControl
   },
   props: {
     item: {

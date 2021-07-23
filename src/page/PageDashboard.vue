@@ -1,15 +1,31 @@
 <template>
   <div>
-    <button class="addCost" @click="addPayment('Food',200)">Food 200
-    </button>
-    <button class="addCost" @click="addPayment('Navigation',50)">
-      Navigation 50
-    </button>
-    <button class="addCost" @click="addPayment('Entertainment',2000)">
-      Entertainment 2000
-    </button>
+    <v-row>
+      <v-col class="text-h4 pt-5 pb-6 font-weight-bold text-uppercase">My personal costs</v-col>
+      <v-col>
+        <v-btn
+            color="pink"
+            dark
+            absolute
+            right
+            @click="openAddPayment"
+        >
+          Add new <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-chip-group>
+      <v-chip class="mr-2" outlined @click="addPayment('Food',200)">
+        <v-icon>mdi-plus</v-icon> Food 200
+      </v-chip>
+      <v-chip class="mr-2" outlined @click="addPayment('Navigation',50)">
+        <v-icon>mdi-plus</v-icon> Navigation 50
+      </v-chip>
+      <v-chip outlined @click="addPayment('Entertainment',2000)">
+        <v-icon>mdi-plus</v-icon> Entertainment 2000
+      </v-chip>
+    </v-chip-group>
 
-    <button class="addCost" @click="openAddPayment" >Add new +</button>
     <AddPaymentForm v-show="$store.getters.getAddPaymentVisible" @addNewPayment="addNewPaymentItem" :category-list="categoryList"/>
     <PaymentDisplay :items="paymentsList"/>
     <Pagination/>

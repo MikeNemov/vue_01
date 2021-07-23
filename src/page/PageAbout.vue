@@ -1,5 +1,5 @@
 <template>
-  <div>About</div>
+  <div class="text-h4 pt-5 pb-6 font-weight-bold text-uppercase">About</div>
 </template>
 
 <script>

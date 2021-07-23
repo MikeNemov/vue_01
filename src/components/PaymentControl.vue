@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <button  type="button" @click="openEdit" v-if="!editOpen">Edit</button>
-    <div v-if="editOpen" class="changes">
-      <input type="text" v-model="changeDate">
-      <select type="text" v-model="changeCategory">
-        <option v-for="(categories,idx) in $store.getters.getCategoryList" :key="idx">{{ categories }}</option>
-      </select>
-      <input type="text" v-model="changeValue">
-      <button type="button" @click="editPayment();openEdit()">Save</button>
-    </div>
-    <button type="button" @click="deletePayment">Delete</button>
-  </div>
+  <v-container>
+    <v-btn  type="button" @click="openEdit" v-if="!editOpen">Edit</v-btn>
+    <v-form v-if="editOpen" class="changes" outlined>
+      <v-text-field v-model="changeDate" />
+      <v-select v-model="changeCategory" :items="$store.getters.getCategoryList"
+                >
+      </v-select>
+      <v-text-field type="text" v-model="changeValue"/>
+      <v-btn @click="editPayment();openEdit()">Save</v-btn>
+    </v-form>
+    <v-btn type="button" @click="deletePayment">Delete</v-btn>
+  </v-container>
 </template>
 
 <script>

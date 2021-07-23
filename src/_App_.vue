@@ -1,29 +1,26 @@
 <template>
-  <v-app>
-    <v-app-bar app color="white">
-      <v-tabs>
-        <v-tab to="/dashboard">Dashboard</v-tab>
-        <v-tab to="/about">About</v-tab>
-      </v-tabs>
-    </v-app-bar>
+  <div class="wrapper">
+    <header>
 
-    <v-main>
-      <v-container>
-        <transition name="fade">
-          <ModalWindow
-              class="modal"
-              v-if="modalName"
-              :settings="settings"/>
-        </transition>
-        <router-view/>
-      </v-container>
-    </v-main>
-
-  </v-app>
+      <div class="title">My personal costs</div>
+      <router-link  to="/dashboard"> Dashboard </router-link> /
+      <router-link  to="/about"> About </router-link>
+    </header>
+    <main>
+      <transition name="fade">
+        <ModalWindow
+            class="modal"
+            v-if="modalName"
+            :settings="settings"/>
+      </transition>
+      <router-view />
+    </main>
+  </div>
 </template>
 
-<script>
 
+
+<script>
 import ModalWindow from "./components/ModalWindow";
 export default {
   name: 'App',
@@ -61,5 +58,16 @@ export default {
   },
 
 
-};
+}
+
 </script>
+
+<style lang="scss" scoped>
+.title{
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+
+</style>
