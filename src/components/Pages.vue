@@ -1,7 +1,5 @@
 <template>
-  <button @click="setViewPageNumber(page)">
-    {{ page }}
-  </button>
+
 </template>
 
 <script>

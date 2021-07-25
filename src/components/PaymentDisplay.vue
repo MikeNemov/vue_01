@@ -8,15 +8,14 @@
       <v-col cols="1"></v-col>
     </v-row>
     <v-row v-for="item in $store.getters.getPaymentsList[`page${$store.getters.getPage}`]"
-    :key='item.id'>
-    <PaymentInfo :item="item"/>
+           :key='item.id'>
+      <PaymentInfo :item="item"/>
 
     </v-row>
   </v-container>
-
-
-
 </template>
+
+
 
 <script>
 export default {
@@ -26,7 +25,8 @@ export default {
   },
 
 
-  methods:{}
+  methods:{
+  }
 
 }
 </script>

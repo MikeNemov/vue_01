@@ -1,14 +1,53 @@
 <template>
-  <div class="wrapper">
-    <input placeholder="Value" type="number" v-model.number="value"/>
-    <select v-model="category">
-      <option v-for="(item, idx) in categories" :value="item" :key="idx">
-        {{item}}
-      </option>
-    </select>
-    <input placeholder="Date" type="text" v-model.trim="date"/>
-    <button  @click="onSaveClick">Save</button>
-  </div>
+  <v-container>
+    <v-text-field  label="Value"
+                  filled
+                  placeholder="Value" type="number" v-model.number="value"/>
+    <v-select filled v-model="category" :items="categories">
+    </v-select>
+    <v-menu
+        ref="menu"
+        v-model="menu"
+        :close-on-content-click="false"
+        :return-value.sync="date"
+        transition="scale-transition"
+        offset-y
+        min-width="auto"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+            v-model="date"
+            label="Date"
+            prepend-icon="mdi-calendar"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+        ></v-text-field>
+      </template>
+      <v-date-picker
+          v-model="date"
+          no-title
+          scrollable
+      >
+        <v-spacer></v-spacer>
+        <v-btn
+            text
+            color="primary"
+            @click="menu = false"
+        >
+          Cancel
+        </v-btn>
+        <v-btn
+            text
+            color="primary"
+            @click="$refs.menu.save(date)"
+        >
+          OK
+        </v-btn>
+      </v-date-picker>
+    </v-menu>
+    <v-btn  @click="onSaveClick">Save</v-btn>
+  </v-container>
 </template>
 
 <script>
@@ -20,9 +59,10 @@ export default {
 
   data() {
     return{
-      value: '0',
+      menu: false,
+      value: '',
       category: 'Food',
-      date:'',
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     }
   },
 
@@ -50,9 +90,9 @@ export default {
 
   methods: {
     onSaveClick(){
-      const {value, category} = this
+      const {value, category, date} = this
       const data = {
-        date: this.date || this.getCurrentDate,
+        date,
         category,
         value
       }
@@ -85,7 +125,13 @@ export default {
       this.value= Number(query.value)
     }
     console.log(this.$route)
+
+    this.date = this.date.getCurrentDate()
+
   },
+
+  mounted() {
+  }
 }
 </script>
 

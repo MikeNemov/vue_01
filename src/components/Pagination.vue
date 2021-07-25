@@ -1,27 +1,32 @@
 <template>
-  <div class="wrapper">
-    <Pages class="pageNum" v-for="page in $store.getters.getPages " :key="page" :page="page"/>
-    </div>
+  <v-pagination
+      v-model="page"
+      :length="$store.getters.getPages"
+      @input="getData"
+  ></v-pagination>
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   name: "Pagination",
-  components: {
-    Pages: ()=> import('./Pages')
+  data() {
+    return {
+      page: 1
+    }
+  },
+  components: {},
+  methods: {
+    ...mapActions([
+      'fetchData'
+    ]),
+    getData() {
+      this.fetchData(this.page)
+    }
   },
 }
 </script>
 
 <style scoped>
-.wrapper {
-  margin-top: 30px;
-  display: flex;
-  width: 600px;
-  justify-content: center;
-  align-items: center;
-}
-.pageNum {
-  margin: 8px
-}
 </style>

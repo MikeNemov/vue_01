@@ -3,15 +3,26 @@
     <v-row>
       <v-col class="text-h4 pt-5 pb-6 font-weight-bold text-uppercase">My personal costs</v-col>
       <v-col>
-        <v-btn
-            color="pink"
-            dark
-            absolute
-            right
-            @click="openAddPayment"
+        <v-dialog
+            width="600"
         >
-          Add new <v-icon>mdi-plus</v-icon>
-        </v-btn>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                color="pink"
+                dark
+                absolute
+                right
+                v-bind="attrs"
+                v-on="on"
+            >
+              Add new <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <AddPaymentForm @addNewPayment="addNewPaymentItem" :category-list="categoryList"/>
+          </v-card>
+
+        </v-dialog>
       </v-col>
     </v-row>
     <v-chip-group>
@@ -26,7 +37,6 @@
       </v-chip>
     </v-chip-group>
 
-    <AddPaymentForm v-show="$store.getters.getAddPaymentVisible" @addNewPayment="addNewPaymentItem" :category-list="categoryList"/>
     <PaymentDisplay :items="paymentsList"/>
     <Pagination/>
   </div>
